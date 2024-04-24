@@ -11,11 +11,11 @@ class UserSerializer(serializers.ModelSerializer):
 class UserLangAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLangAuth
-        fields = ['id', 'tg_user_id', 'lang_code', 'is_auth', 'user_id']
+        fields = ['tg_user_id', 'lang_code', 'is_auth', 'user_id']
 class UserLangAuthCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLangAuth
-        fields = ['id', 'tg_user_id', 'lang_code', 'is_auth']
+        fields = ['tg_user_id', 'lang_code', 'is_auth']
 
 class CardsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,12 +46,12 @@ class ProductAllSerializer(serializers.ModelSerializer):
 class PaymentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ['id', 'price', 'cheque_pic', 'card_id']
+        fields = ['id', 'price', 'cheque_pic', 'card_id', 'user']
 
-class PaymentListSerializer(serializers.ModelSerializer):
+class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ['id', 'user', 'price', 'cheque_pic', 'datetime', 'card_id']
+        fields = '__all__'
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     class Meta:

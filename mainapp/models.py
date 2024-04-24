@@ -5,20 +5,20 @@ class User(models.Model):
     phone_number = models.CharField(max_length=13)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=50)
-    user_id = models.PositiveBigIntegerField()
     balance = models.PositiveIntegerField()
 
     def __str__(self):
         return self.email
 
 class UserLangAuth(models.Model):
-    tg_user_id = models.CharField(max_length=15, unique=True)
+    tg_user_id = models.CharField(max_length=15, primary_key=True)
     lang_code = models.CharField(max_length=5)
     is_auth = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.tg_user_id
+
 
 class App(models.Model):
     name = models.CharField(max_length=50)
@@ -42,13 +42,15 @@ class Order(models.Model):
     gamer_id = models.CharField(max_length=50, null=True, blank=True)
     datetime = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
+    comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.user.name + " " + self.product.name
 
 class Cards(models.Model):
     name = models.CharField(max_length=50)
-    number = models.CharField(max_length=16)
+    number = models.CharField(max_length=16, unique=True)
     type = models.CharField(max_length=10,
                             choices=[
                                 ('Humo', 'Humo'),
@@ -65,6 +67,7 @@ class Payment(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     cheque_pic = models.JSONField()
     card_id = models.ForeignKey(Cards, on_delete=models.SET_NULL, null=True)
+    comment = models.TextField(null=True, blank=True)
     is_accepted = models.BooleanField(default=False)
     is_rejected = models.BooleanField(default=False)
 
